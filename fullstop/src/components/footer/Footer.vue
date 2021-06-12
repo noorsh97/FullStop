@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="row">
-      <div class="col-md-8 offset-md-2">
+      <div class="col-md-8 offset-md-2  offset-sm-1  col-sm-12">
         <div class="row">
           <div class="col-6">
             <div class="fullStop">
@@ -33,7 +33,7 @@
                   :key="item.id"
                   class="listWithoutBullets"
                 >
-                  <li>{{ item.name }}</li>
+                  <li>{{ item }}</li>
                 </ul>
               </div>
               <div class="col-6">
@@ -68,7 +68,7 @@ export default {
 
 <style scoped>
 .footer {
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 0;
   color: #748a9d;
@@ -87,11 +87,13 @@ export default {
 .listWithoutBullets {
   list-style-type: none;
   padding: 0px;
+  text-transform: capitalize;
 }
 .listWithoutBullets > li {
   font-size: 16pt;
   text-align: left;
   margin-bottom: 12px;
+  text-transform: capitalize;
 }
 .footerTitle {
   font-size: 16pt;
@@ -126,7 +128,7 @@ export default {
   flex-direction: row;
 }
 .footerText {
-  width: 397px;
+  width: 350px;
   text-align: left;
 }
 .copyright {
@@ -157,4 +159,18 @@ export default {
 
   justify-content: flex-start;
 }
+
+@media (max-width: 400px) { 
+.footer {
+    width: 0px;
+    display: none;
+  }
+ }
+@media (max-width: 575.98px) { 
+ .footer {
+    width: 0px;
+    display: none;
+  }
+}
+
 </style>

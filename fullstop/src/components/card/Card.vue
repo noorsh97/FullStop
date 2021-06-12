@@ -1,11 +1,15 @@
 <template>
-  <div class="cardObject">
-    <div class="imageContainer">
-      <img v-bind:src="imageSrc" alt="Italian Trulli" />
+<div class="col-12 d-flex align-items-stretch">
+  <div class="card flex-fill">
+    <div class="card-body d-flex align-items-center justify-content-center">
+      <img :src="imageSrc" class="card-img-top" :alt="title">
     </div>
-    <span class="title">{{ title }}</span>
-    <span class="price">{{ price }}</span>
+    <div class="card-footer">
+      <h5 class="card-title">{{ title }}</h5>
+      <p class="card-text">JOD {{ price }}</p>
+    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -17,11 +21,10 @@
 
 <style scoped>
   .cardObject {
-    float: left;
     justify-content: center;
     align-items: center;
-    width: 258px;
-    height: 351px;
+    width: 100%;
+    min-height: 351px;
     border: 1px solid white;
     margin: 16px;
     overflow: hidden;
@@ -32,16 +35,27 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
   }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+  .card .card-footer{
+    background: transparent;
+    border: none;
+  }
+  .card .card-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .card img {
+    width: auto;
+    max-width: 100%;
+    max-height: 255px;
+    margin-bottom: 20px;
+    padding: 0 20px
   }
 
   .imageContainer {
-    width: 220px;
-    height: 221px;
+    text-align: center;
     margin: 20px;
   }
   .title {

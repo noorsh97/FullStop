@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <Header />
-    <Categories :categories="categories" @eventname="changeCategory" />
-    <div class="row d-flex flex-row justify-content-around align-items-center">
-      <div class="card-columns col-md-8 col-sm-12 col-xs-12">
-        <Card
-          v-for="item in products"
-          :key="item.id"
-          :id="item.id"
-          :imageSrc="item.image"
-          :price="item.price"
-          :title="item.title"
-        />
+    <Categories :categories="categories" v-on:change-cat="changeCategory" />
+    <div class="row d-flex flex-row justify-content-around align-middle mb-5 mt-5 mx-auto">
+      <div class="col-md-8 col-sm-12 col-xs-12 m-auto">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+          <Card
+            v-for="item in products"
+            :key="item.id"
+            :id="item.id"
+            :imageSrc="item.image"
+            :price="item.price"
+            :title="item.title"
+          />
+        </div>
       </div>
     </div>
     <Footer :categories="categories" />
@@ -35,51 +37,33 @@ export default {
   },
   data() {
     return {
-      categories: null,
+      categories: ['all'],
       products: null,
-      selectedCategory: null,
     };
   },
   methods: {
     changeCategory(variable) {
-      this.selectedCategory = variable;
-      this.updatePage();
+      this.updatePage(variable);
     },
-    updatePage() {
-      if (this.selectedCategory == "All") {
+    updatePage(variable) {
+      if (variable == "all") {
         axios.get("https://fakestoreapi.com/products").then((res) => {
           this.products = res.data;
         });
       } else {
         axios
           .get(
-            `https://fakestoreapi.com/products/category/${this.selectedCategory}`
+            `https://fakestoreapi.com/products/category/${variable}`
           )
           .then((res) => {
             this.products = res.data;
           });
       }
     },
-    ucWord(word) {
-      return word && word.length >= 2
-        ? word[0].toUpperCase() + word.substring(1)
-        : "";
-    },
   },
   mounted: function () {
     axios.get("https://fakestoreapi.com/products/categories").then((res) => {
-      let newCategories = [];
-      for (let i = 0; i < res.data.length; i++) {
-        newCategories.push({
-          name: res.data[i],
-          id: i + 1,
-          title: this.ucWord(res.data[i]),
-        });
-      }
-      this.categories = [
-        { name: "All", id: "0", title: "All" },
-        ...newCategories,
-      ];
+      this.categories = [...this.categories, ...res.data]
     });
     axios.get("https://fakestoreapi.com/products").then((res) => {
       this.products = res.data;
@@ -93,29 +77,39 @@ export default {
   display: inline-block;
   margin-top: 12px;
 }
-@media (max-width: 768px) {
-  .card-columns {
-    column-count: 1;
-  }
+
+@media (max-width: 575.98px) {
+.card-columns {
+  column-count: 1;
+}
 }
 
-@media (min-width: 768px) {
-  .card-columns {
-    column-count: 2;
-  }
+@media (min-width: 576px) and (max-width: 767.98px) { 
+.card-columns {
+  column-count: 1;
+}
+ }
+
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+.card-columns {
+  column-count: 2;
+}
 }
 
-@media (max-width: 913px) {
-  .card-columns {
-    column-count: 3;
-  }
-}
-@media (min-width: 1200px) {
-  .card-columns {
-    column-count: 4;
-  }
-}
 
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+.card-columns {
+  column-count: 2;
+}
+ }
+
+
+@media (min-width: 1200px) { 
+.card-columns {
+  column-count: 4;
+}
+}
 * {
   text-align: center;
   list-style-type: none;
