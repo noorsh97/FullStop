@@ -2,36 +2,84 @@
   <div id="app">
     <Header />
     <Categories :categories="categories" />
+    <div class="row d-flex flex-row justify-content-around align-items-center">
+      <div class="card-columns col-md-8 col-sm-12 col-xs-12">
+        <Card
+          v-for="item in products"
+          :key="item.id"
+          :id="item.id"
+          :imageSrc="item.image"
+          :price="item.price"
+          :title="item.title"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Header from "./components/header/Header.vue";
-import Categories from './components/categories/Categories.vue';
+import Categories from "./components/categories/Categories.vue";
 import axios from "axios";
+import Card from "./components/card/Card.vue";
 
 export default {
   name: "App",
   components: {
     Header,
     Categories,
+    Card,
   },
   data() {
-      return {
-        categories: null,
-      };
-    },
-   mounted: function() {
-      axios.get("https://fakestoreapi.com/products/categories").then((res) => {
-        let newCategories = [];
-        for (let i = 0; i < res.data.length; i++) {
-          newCategories.push({ name: res.data[i], id: i+1});
-        }
-        this.categories = [{name: "All", id: "0"}, ...newCategories]
-      });
-    },
+    return {
+      categories: null,
+      products: null,
+    };
+  },
+  mounted: function () {
+    axios.get("https://fakestoreapi.com/products/categories").then((res) => {
+      let newCategories = [];
+      for (let i = 0; i < res.data.length; i++) {
+        newCategories.push({ name: res.data[i], id: i + 1 });
+      }
+      this.categories = [{ name: "All", id: "0" }, ...newCategories];
+    });
+    axios.get("https://fakestoreapi.com/products").then((res) => {
+      this.products = res.data;
+    });
+  },
 };
 </script>
 
 <style>
+.card-columns {
+  display: inline-block;
+  margin-top: 12px;
+}
+@media (max-width: 768px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1150px) {
+  .card-columns {
+    column-count: 3;
+  }
+}
+@media (min-width: 1200px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
+
+* {
+  text-align: center;
+}
 </style>

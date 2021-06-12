@@ -1,6 +1,6 @@
 <template>
   <div class="categories row align-items-center">
-    <div class="col d-flex flex-row justify-content-center">
+    <div class="d-flex flex-row justify-content-center">
       <Category
         v-for="item in categories"
         :key="item.id"
