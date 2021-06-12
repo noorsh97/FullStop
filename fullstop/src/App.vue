@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <Categories :categories="categories" />
+    <Categories :categories="categories" @eventname="changeCategory" />
     <div class="row d-flex flex-row justify-content-around align-items-center">
       <div class="card-columns col-md-8 col-sm-12 col-xs-12">
         <Card
@@ -34,15 +34,49 @@ export default {
     return {
       categories: null,
       products: null,
+      selectedCategory: null,
     };
+  },
+  methods: {
+    changeCategory(variable) {
+      this.selectedCategory = variable;
+      this.updatePage();
+    },
+    updatePage() {
+      if (this.selectedCategory == "All") {
+        axios.get("https://fakestoreapi.com/products").then((res) => {
+          this.products = res.data;
+        });
+      } else {
+        axios
+          .get(
+            `https://fakestoreapi.com/products/category/${this.selectedCategory}`
+          )
+          .then((res) => {
+            this.products = res.data;
+          });
+      }
+    },
+    ucWord(word) {
+      return word && word.length >= 2
+        ? word[0].toUpperCase() + word.substring(1)
+        : "";
+    },
   },
   mounted: function () {
     axios.get("https://fakestoreapi.com/products/categories").then((res) => {
       let newCategories = [];
       for (let i = 0; i < res.data.length; i++) {
-        newCategories.push({ name: res.data[i], id: i + 1 });
+        newCategories.push({
+          name: res.data[i],
+          id: i + 1,
+          title: this.ucWord(res.data[i]),
+        });
       }
-      this.categories = [{ name: "All", id: "0" }, ...newCategories];
+      this.categories = [
+        { name: "All", id: "0", title: "All" },
+        ...newCategories,
+      ];
     });
     axios.get("https://fakestoreapi.com/products").then((res) => {
       this.products = res.data;
@@ -68,7 +102,7 @@ export default {
   }
 }
 
-@media (min-width: 1150px) {
+@media (max-width: 913px) {
   .card-columns {
     column-count: 3;
   }
