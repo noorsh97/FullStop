@@ -15,6 +15,6 @@ git add -A
 git commit -m 'deploy'
 
 
-git push -f git@github.com:noorsh97/FullStop.git main:gh-pages
+git push -f git@github.com:noorsh97/FullStop.git master:gh-pages
 
 cd -
