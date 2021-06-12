@@ -14,6 +14,7 @@
         />
       </div>
     </div>
+    <Footer :categories="categories" />
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import Header from "./components/header/Header.vue";
 import Categories from "./components/categories/Categories.vue";
 import axios from "axios";
 import Card from "./components/card/Card.vue";
+import Footer from "./components/footer/Footer.vue"
 
 export default {
   name: "App",
@@ -29,6 +31,7 @@ export default {
     Header,
     Categories,
     Card,
+    Footer
   },
   data() {
     return {
@@ -115,5 +118,6 @@ export default {
 
 * {
   text-align: center;
+  list-style-type: none;
 }
 </style>
